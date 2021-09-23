@@ -1,0 +1,26 @@
+Package: cinnabar-ppa
+Version: 0.1.0
+Architecture: all
+Maintainer: tumble@users.noreply.github.com
+Filename: ./cinnabar-ppa.deb
+Size: 3156
+MD5sum: 757dbe3724002bf8dafe06590d8c9157
+SHA1: ee9028da47db6faf9388fd1547625f78b87a814e
+SHA256: acce3b129cff509161881ba72ec357013295c772ad06099ec0ccf74fbbb48f81
+Section: development
+Priority: required
+Description: Debian PPA for cinnabar-ppa
+
+Package: tumble-ppa
+Version: 0.1.0
+Architecture: all
+Maintainer: tumble@users.noreply.github.com
+Filename: ./tumble-ppa.deb
+Size: 2064
+MD5sum: c55e4736cea1bd1fc752accaa253c49b
+SHA1: bbbf745183d278685d0b3b093deb72a9ea1fb52d
+SHA256: e9b77ba1750da100ef96434b1981799c8e6fa8c0adb90e385598f73286693447
+Section: development
+Priority: required
+Description: Debian PPA for tumble-ppa
+
