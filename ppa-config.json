@@ -1,9 +1,12 @@
 {
 	"repos": [
-
+		"tumble1999/woah",
+		"tumble1999/tumble-ppa",
+		"cinnabar-engine/cinnabar-engine.github.io"
 	],
 	"distros": [
 		["windows","*.dll","*-win.zip"],
-		["debian","*.deb"]
+		["debian","*.deb"],
+		["arch","*.pkg.*"]
 	]
 }

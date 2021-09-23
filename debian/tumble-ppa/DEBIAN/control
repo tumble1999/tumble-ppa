@@ -1,0 +1,8 @@
+Package: tumble-ppa
+Version: 0.1.0
+Section: development
+Priority: required
+Architecture: all
+Maintainer: tumble@users.noreply.github.com
+Description: Debian PPA for tumble-ppa
+

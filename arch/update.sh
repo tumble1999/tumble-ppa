@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME=PPA_NAME
+NAME=tumble-ppa
 PPA=.db.tar.gz
 EXT=.pkg.tar.zst
 
