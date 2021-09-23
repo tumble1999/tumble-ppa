@@ -1,0 +1,44 @@
+title: PPA_NAME
+
+permalink: pretty
+production: true
+
+markdown: kramdown
+theme: minima
+kramdown:
+  math-engine: mathjax
+  auto_ids: false
+  input: GFM
+  entity-output: as_char
+  footnote-nr: "1"
+  toc-levels: 1..6
+  gfm-quirks: paragraph_end
+  syntax-highlighter-opts:
+    default-lang: plaintext
+  syntax-highlighter: rouge
+  smart-quotes: lsquo,rsquo,ldquo,rdquo
+
+exclude:
+  - "*.sh"
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - README-SETUP.md
+
+collections:
+  apt:
+    output: true
+  pacman:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: apt
+    values:
+      layout: apt
+  - scope:
+      path: ""
+      type: pacman
+    values:
+      layout: pacman

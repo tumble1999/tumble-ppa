@@ -1,0 +1,9 @@
+{
+	"repos": [
+
+	],
+	"distros": [
+		["windows","*.dll","*-win.zip"],
+		["debian","*.deb"]
+	]
+}

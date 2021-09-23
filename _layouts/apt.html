@@ -1,0 +1,33 @@
+---
+layout: page
+---
+
+<h1> Package: {{page.package}} ({{page.version}})</h1>
+
+<p>{{page.description}}</p>
+
+<p>Install: <code>sudo apt install {{page.package}}</code></p>
+
+{{content}}
+
+<h2>Download</h2>
+<ul>
+	<li><a href="/debian/{{page.filename}}">{{page.filename}}</a></li>
+</ul>
+
+{% if page.depends %}
+<h2>Dependencies</h2>
+<ul>
+{% assign deps = page.depends | split:', ' %}
+{% for dep in deps %}
+<li>
+{% assign package=site.apt | where: 'package', dep | first %}
+{% if package %}
+{% include apt.html package=package %}
+{% else %}
+<strong>{{dep}}</strong>
+{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,75 @@
+name: PPA Compilation
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-ppa:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout the branch
+    - name: checkout
+      uses: actions/checkout@v2-beta # use either @v2-beta or @master. Eventually there will be a @v2 tag.
+
+    - name: Fetch latest releases
+      id: fetch
+      continue-on-error: true
+      run: |
+        chmod +x ./get-packages.sh
+        ./get-packages.sh
+        git add .
+        CHANGES=`git diff --name-only HEAD`
+        ARCH_CHANGES=`echo ${CHANGES} | grep "arch" | wc -l`
+        DEBIAN_CHANGES=`echo ${CHANGES} | grep "debian" | wc -l`
+        echo "::set-output name=ARCH::$ARCH_CHANGES"
+        echo "::set-output name=DEBIAN::$DEBIAN_CHANGES"
+
+    - name: Update Debian PPA
+      id: debian
+      if: steps.fetch.outputs.DEBIAN > 0
+      env:
+        GPG_KEY: ${{ secrets.GPG_KEY }}
+      run: |
+        echo -n "$GPG_KEY" | base64 --decode | gpg --import
+        cd debian
+        chmod +x ./update.sh
+        ./update.sh
+        git add .
+        CHANGES=`git diff --name-only HEAD`
+        DEBIAN_CHANGES=`echo ${CHANGES} | grep "debian" | wc -l`
+        echo "::set-output name=CHANGES::$DEBIAN_CHANGES"
+
+    - name: Update Arch PPA
+      id: arch
+      if: steps.fetch.outputs.ARCH > 0
+      run: |
+        cd arch
+        chmod +x ./update.sh
+        sudo docker build . --tag ppa-arch
+        sudo docker run -d -it --name ppa-arch-image -v "$(pwd)":/app:rw ppa-arch
+        sudo docker exec ppa-arch-image ./update.sh
+        CHANGES=`git diff --name-only HEAD`
+        ARCH_CHANGES=`echo ${CHANGES} | grep "arch" | wc -l`
+        echo "::set-output name=CHANGES::$ARCH_CHANGES"
+
+    - name: Update Website
+      id: web
+      if: steps.arch.outputs.CHANGES > 0 || steps.debian.outputs.CHANGES > 0
+      run: |
+        ./update-website.sh
+        git add .
+        CHANGES=`git diff --name-only HEAD`
+        echo "::set-output name=CHANGES::$(if [ `echo ${CHANGES} | grep -e _pacman -e _apt | wc -l` > 0 ]; then echo 1; else echo 0; fi)"
+
+    - name: commit
+      if: steps.arch.outputs.CHANGES == 1 || steps.debian.outputs.CHANGES == 1 || steps.web.outputs.CHANGES == 1
+      continue-on-error: true
+      run: |
+        git config --global user.email "octocat@github.com"
+        git config --global user.name "Github Actions"
+        git add .
+        git commit -m "ppa update"
+        git push
+        exit 0

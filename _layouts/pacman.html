@@ -1,0 +1,33 @@
+---
+layout: page
+---
+
+<h1> Package: {{page.name}} ({{page.version}})</h1>
+
+<p>{{page.description}}</p>
+
+<p>Install: <code>sudo pacman -S {{page.name}}</code></p>
+
+{{content}}
+
+<h2>Download</h2>
+<ul>
+	<li><a href="/arch/{{page.name}}-{{page.version}}-{{page.architecture}}.pkg.tar.zst">{{page.name}}-{{page.version}}-{{page.architecture}}.pkg.tar.zst</a></li>
+</ul>
+
+{% if page["depends On"] %}
+<h2>Dependencies</h2>
+<ul>
+{% assign deps = page["depends On"] | split:' ' %}
+{% for dep in deps %}
+<li>
+{% assign package=site.pacman | where: 'package', dep | first %}
+{% if package %}
+{% include pacman.html package=package %}
+{% else %}
+<strong>{{dep}}</strong>
+{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endif %}
