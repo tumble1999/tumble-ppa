@@ -4,10 +4,10 @@ version: 0.1.0
 architecture: all
 maintainer: tumble@users.noreply.github.com
 filename: cinnabar-ppa.deb
-size: 3156
-md5sum: 757dbe3724002bf8dafe06590d8c9157
-sha1: ee9028da47db6faf9388fd1547625f78b87a814e
-sha256: acce3b129cff509161881ba72ec357013295c772ad06099ec0ccf74fbbb48f81
+size: 3172
+md5sum: ad5ab0d149c5d7dc1af7df3f56a4b99b
+sha1: c5ce5f8985d2464358a63f3160c82e30fa0c05cb
+sha256: 0cd23df2934f635bfdef89036e1bcc71bba9e7c6e79f0d9efa087d7ab2f20778
 section: development
 priority: required
 description: Debian PPA for cinnabar-ppa
